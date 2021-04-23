@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="krusty.KrustyTests" tests="8" skipped="0" failures="0" errors="0" timestamp="2020-03-27T19:56:08" hostname="Lis-MacBook-Pro" time="0.296">
+  <properties/>
+  <testcase name="test01Customers" classname="krusty.KrustyTests" time="0.146"/>
+  <testcase name="test02Cookies" classname="krusty.KrustyTests" time="0.004"/>
+  <testcase name="test03RawMaterials" classname="krusty.KrustyTests" time="0.023"/>
+  <testcase name="test04CreatePallets" classname="krusty.KrustyTests" time="0.09"/>
+  <testcase name="test05Pallets" classname="krusty.KrustyTests" time="0.01"/>
+  <testcase name="test06PalletsByCookie" classname="krusty.KrustyTests" time="0.016"/>
+  <testcase name="test07PalletsByCookieAndDate" classname="krusty.KrustyTests" time="0.004"/>
+  <testcase name="test08PalletsByCookieAndDate2" classname="krusty.KrustyTests" time="0.003"/>
+  <system-out><![CDATA[select id, cookie, production_date, customer, IF(isBlocked,'yes','no') AS blocked
+from Pallets
+left outer join Orders on Pallets.order_nbr= Orders.order_nbr
+
+order by production_date DESC;
+select id, cookie, production_date, customer, IF(isBlocked,'yes','no') AS blocked
+from Pallets
+left outer join Orders on Pallets.order_nbr= Orders.order_nbr
+where cookie =  "Nut ring" 
+order by production_date DESC;
+select id, cookie, production_date, customer, IF(isBlocked,'yes','no') AS blocked
+from Pallets
+left outer join Orders on Pallets.order_nbr= Orders.order_nbr
+where cookie =  "Nut ring"  and production_date >= "2020-03-27" 
+order by production_date DESC;
+select id, cookie, production_date, customer, IF(isBlocked,'yes','no') AS blocked
+from Pallets
+left outer join Orders on Pallets.order_nbr= Orders.order_nbr
+where cookie =  "Nut ring"  and production_date >= "2021-03-27" 
+order by production_date DESC;
+]]></system-out>
+  <system-err><![CDATA[[Test worker] INFO spark.staticfiles.StaticFilesConfiguration - StaticResourceHandler configured with folder = /public
+[Thread-5] INFO org.eclipse.jetty.util.log - Logging initialized @1174ms to org.eclipse.jetty.util.log.Slf4jLog
+[Thread-5] INFO spark.embeddedserver.jetty.EmbeddedJettyServer - == Spark has ignited ...
+[Thread-5] INFO spark.embeddedserver.jetty.EmbeddedJettyServer - >> Listening on 0.0.0.0:8888
+[Thread-5] INFO org.eclipse.jetty.server.Server - jetty-9.4.18.v20190429; built: 2019-04-29T20:42:08.989Z; git: e1bc35120a6617ee3df052294e433f3a25ce7097; jvm 11.0.5+10
+[Thread-5] INFO org.eclipse.jetty.server.session - DefaultSessionIdManager workerName=node0
+[Thread-5] INFO org.eclipse.jetty.server.session - No SessionScavenger set, using defaults
+[Thread-5] INFO org.eclipse.jetty.server.session - node0 Scavenging every 660000ms
+[Thread-5] INFO org.eclipse.jetty.server.AbstractConnector - Started ServerConnector@70c849a4{HTTP/1.1,[http/1.1]}{0.0.0.0:8888}
+[Thread-5] INFO org.eclipse.jetty.server.Server - Started @1265ms
+java.sql.BatchUpdateException: Can not issue empty query.
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:490)
+	at com.mysql.cj.util.Util.handleNewInstance(Util.java:192)
+	at com.mysql.cj.util.Util.getInstance(Util.java:167)
+	at com.mysql.cj.util.Util.getInstance(Util.java:174)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createBatchUpdateException(SQLError.java:224)
+	at com.mysql.cj.jdbc.StatementImpl.executeBatchInternal(StatementImpl.java:893)
+	at com.mysql.cj.jdbc.StatementImpl.executeBatch(StatementImpl.java:796)
+	at krusty.Database.reset(Database.java:184)
+	at krusty.ServerMain.lambda$initRoutes$6(ServerMain.java:47)
+	at spark.RouteImpl$1.handle(RouteImpl.java:72)
+	at spark.http.matching.Routes.execute(Routes.java:61)
+	at spark.http.matching.MatcherFilter.doFilter(MatcherFilter.java:134)
+	at spark.embeddedserver.jetty.JettyHandler.doHandle(JettyHandler.java:50)
+	at org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1671)
+	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:144)
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:132)
+	at org.eclipse.jetty.server.Server.handle(Server.java:505)
+	at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:370)
+	at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:267)
+	at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:305)
+	at org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:103)
+	at org.eclipse.jetty.io.ChannelEndPoint$2.run(ChannelEndPoint.java:117)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:698)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:804)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+Caused by: java.sql.SQLException: Can not issue empty query.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:129)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:89)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:63)
+	at com.mysql.cj.jdbc.StatementImpl.checkNullOrEmptyQuery(StatementImpl.java:387)
+	at com.mysql.cj.jdbc.StatementImpl.executeUpdateInternal(StatementImpl.java:1252)
+	at com.mysql.cj.jdbc.StatementImpl.executeBatchInternal(StatementImpl.java:859)
+	... 19 more
+[Thread-14] INFO spark.embeddedserver.jetty.EmbeddedJettyServer - >>> Spark shutting down ...
+]]></system-err>
+</testsuite>
